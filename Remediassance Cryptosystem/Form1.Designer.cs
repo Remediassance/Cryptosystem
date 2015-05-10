@@ -61,7 +61,7 @@
             this.createKeyBtn.Name = "createKeyBtn";
             this.createKeyBtn.Size = new System.Drawing.Size(92, 36);
             this.createKeyBtn.TabIndex = 0;
-            this.createKeyBtn.Text = "Генерация пары RSA";
+            this.createKeyBtn.Text = "ШИФР КЛЮЧА";
             this.createKeyBtn.UseVisualStyleBackColor = true;
             this.createKeyBtn.Click += new System.EventHandler(this.createKeyBtn_Click);
             // 

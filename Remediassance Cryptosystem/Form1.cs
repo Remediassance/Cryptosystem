@@ -33,11 +33,15 @@ namespace Remediassance_Cryptosystem
 
         public bool isSmall = true;
         public static byte[] alicePublicKey;
-
+        public RSACryptoServiceProvider RSA;
+        byte[] dataToEncrypt;
+        byte[] encryptedData;
+        byte[] decryptedData;
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            myRSA.eratosphen(ref myRSA.P, 10000000);
+           RSA = new RSACryptoServiceProvider(); 
+            //myRSA.eratosphen(ref myRSA.P, 10000000);
         }
 
 
@@ -146,22 +150,99 @@ namespace Remediassance_Cryptosystem
 
 
         /*=====================================================================
-         *                     1) ГЕНЕРАЦИЯ ПАРЫ RSA
+         *                     1) ШИФРОВАНИЕ КЛЮЧА C RSA
          *=====================================================================
          */
         private void createKeyBtn_Click(object sender, EventArgs e)
         {
-            myRSA rsa = new myRSA();
-            BigInteger[] vars;
+            try
+            {
+                //Create a UnicodeEncoder to convert between byte array and string.
+                UnicodeEncoding ByteConverter = new UnicodeEncoding();
+                String data;
+                openFile(keyNameBox.Text, out data);
 
-            /*String text; // в нее считать файл
-            openFile(fileNameBox.Text, out text);*/
+                dataToEncrypt = ByteConverter.GetBytes(data);
 
-            rsa.generateVariables(out vars);
+                RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(); 
 
-            dTextBox.Text = vars[2].ToString();
-            eTextBox.Text = vars[3].ToString();
-            nTextBox.Text = vars[4].ToString();
+                encryptedData = RSAEncrypt(dataToEncrypt, RSA.ExportParameters(false), false);
+
+                saveSeanseKey(ByteConverter.GetString(encryptedData));
+
+                    /*decryptedData = 
+                        RSADecrypt(encryptedData, RSA.ExportParameters(true), false);*/
+
+            }
+            catch (ArgumentNullException)
+            {
+                //Catch this exception in case the encryption did
+                //not succeed.
+                Console.WriteLine("Encryption failed.");
+
+            }
+        }
+
+
+        static public byte[] RSAEncrypt(byte[] DataToEncrypt, RSAParameters RSAKeyInfo, bool DoOAEPPadding)
+        {
+            try
+            {
+                byte[] encryptedData;
+                //Create a new instance of RSACryptoServiceProvider.
+                using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
+                {
+
+                    //Import the RSA Key information. This only needs
+                    //toinclude the public key information.
+                    RSA.ImportParameters(RSAKeyInfo);
+
+                    //Encrypt the passed byte array and specify OAEP padding.  
+                    //OAEP padding is only available on Microsoft Windows XP or
+                    //later.  
+                    encryptedData = RSA.Encrypt(DataToEncrypt, DoOAEPPadding);
+                }
+                return encryptedData;
+            }
+            //Catch and display a CryptographicException  
+            //to the console.
+            catch (CryptographicException e)
+            {
+                Console.WriteLine(e.Message);
+
+                return null;
+            }
+
+        }
+
+        static public byte[] RSADecrypt(byte[] DataToDecrypt, RSAParameters RSAKeyInfo, bool DoOAEPPadding)
+        {
+            try
+            {
+                byte[] decryptedData;
+                //Create a new instance of RSACryptoServiceProvider.
+                using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
+                {
+                    //Import the RSA Key information. This needs
+                    //to include the private key information.
+                    RSA.ImportParameters(RSAKeyInfo);
+
+                    //Decrypt the passed byte array and specify OAEP padding.  
+                    //OAEP padding is only available on Microsoft Windows XP or
+                    //later.  
+                    decryptedData = RSA.Decrypt(DataToDecrypt, DoOAEPPadding);
+                }
+                return decryptedData;
+            }
+            //Catch and display a CryptographicException  
+            //to the console.
+            catch (CryptographicException e)
+            {
+                Console.WriteLine(e.ToString());
+
+                return null;
+            }
+
         }
 
 
