@@ -189,7 +189,7 @@
             this.groupBox1.Controls.Add(this.nTextBox);
             this.groupBox1.Location = new System.Drawing.Point(9, 240);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(386, 162);
+            this.groupBox1.Size = new System.Drawing.Size(386, 167);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Переменные";
@@ -314,7 +314,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(403, 412);
+            this.ClientSize = new System.Drawing.Size(403, 411);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.openKeyFileBtn);
             this.Controls.Add(this.createSeanseBtn);
