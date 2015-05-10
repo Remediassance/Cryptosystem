@@ -348,7 +348,7 @@ namespace Remediassance_Cryptosystem
         private void button1_Click(object sender, EventArgs e)
         {
             Size sSize = new Size(419, 278);
-            Size bSize = new Size(419, 436);
+            Size bSize = new Size(419, 456);
             if (isSmall == true)
             {
                 this.Size = bSize;
