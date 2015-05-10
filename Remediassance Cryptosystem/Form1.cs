@@ -32,18 +32,121 @@ namespace Remediassance_Cryptosystem
         }
 
         public bool isSmall = true;
-        public static byte[] alicePublicKey;
-        public RSACryptoServiceProvider RSA;
-        byte[] dataToEncrypt;
+        TripleDESCryptoServiceProvider tripleDES;
         byte[] encryptedData;
         byte[] decryptedData;
+        RSAParameters exportedParams;
 
-        private void Form1_Load(object sender, EventArgs e)
+
+
+        /*=====================================================================
+        *              ГЕНЕРАЦИЯ И СОХРАНЕНИЕ СЕАНСОВОГО КЛЮЧА
+        *=====================================================================
+        */
+        private void createSeanseBtn_Click(object sender, EventArgs e)
         {
-           RSA = new RSACryptoServiceProvider(); 
-            //myRSA.eratosphen(ref myRSA.P, 10000000);
+            //UnicodeEncoding ByteConverter = new UnicodeEncoding();
+            tripleDES = new TripleDESCryptoServiceProvider();
+            tripleDES.GenerateKey();
+            String s = "";
+            foreach(byte b in tripleDES.Key)
+                s += b.ToString();
+            //s.Substring(0, 31);//Encoding.Unicode.GetString(RM.Key);
+            saveText(s.Substring(0, 31));
+            encodeKeyBtn.Enabled = true;
         }
 
+
+
+        /*=====================================================================
+         *                 ШИФРОВАНИЕ СЕАНСОВОГО КЛЮЧА C RSA
+         *=====================================================================
+         */
+        private void encodeKeyBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                UnicodeEncoding ByteConverter = new UnicodeEncoding();
+                String data;
+                byte[] dataToEncrypt;
+
+                openFile(keyNameBox.Text, out data);
+                dataToEncrypt = Encoding.Unicode.GetBytes(data);
+
+                using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
+                {
+                    encryptedData = RSAEncrypt(dataToEncrypt, RSA.ExportParameters(false));
+                    saveText(ByteConverter.GetString(encryptedData));
+
+                    exportedParams = RSA.ExportParameters(true);
+                    /*decryptedData = RSADecrypt(encryptedData, RSA.ExportParameters(true), false);*/
+                }
+                decodeKeyBtn.Enabled = true;
+            }
+            catch (ArgumentNullException ERROR)
+            {
+                MessageBox.Show(ERROR.Message,"Неудалось зашифровать текст.");
+            }
+        }
+
+
+
+        /*=====================================================================
+        *                  РАСШИФРОВАНИЕ СЕАНСОВОГО КЛЮЧА
+        *======================================================================
+        */
+        private void decodeKeyBtn_Click(object sender, EventArgs e)
+        {
+            UnicodeEncoding ByteConverter = new UnicodeEncoding();
+            String data;
+            byte[] dataToDecrypt;
+
+            openFile(keyNameBox.Text, out data);
+            dataToDecrypt = Encoding.Unicode.GetBytes(data);
+            decryptedData = rsaDecrypt(encryptedData, exportedParams);
+            //decryptedData = rsaDecrypt(dataToDecrypt, exportedParams);
+            saveText(ByteConverter.GetString(decryptedData));
+
+            encodeBtn.Enabled = true;
+        }
+
+
+
+
+        /*=====================================================================
+        *                      ШИФРОВАНИЕ ТЕКСТА
+        *=====================================================================
+        */
+        private void encodeBtn_Click(object sender, EventArgs e)
+        {
+            String data;
+            openFile(fileNameBox.Text, out data);
+            encryptTextToFile(data, fileNameBox.Text, tripleDES.Key, tripleDES.IV);
+            decodeBtn.Enabled = true;
+        }
+
+
+
+
+        /*=====================================================================
+         *                          ДЕШИФРОВКА ТЕКСТА
+         *=====================================================================
+         */
+        private void decodeBtn_Click(object sender, EventArgs e)
+        {
+            string data = decryptTextFromFile(fileNameBox.Text, tripleDES.Key, tripleDES.IV);
+            saveText(data);
+        }
+
+
+
+
+        /*==============================================================================
+         *===============================================================================
+         * Далее идут вспомогательные методы
+         *===============================================================================
+         *==============================================================================
+         */
 
 
 
@@ -60,17 +163,15 @@ namespace Remediassance_Cryptosystem
                 {
                     fileNameBox.Text = openDialog.FileName.ToString();
                     openTextFileBtn.Enabled = true;
-                    createKeyBtn.Enabled = true;
                 }
                 catch (Exception ERROR)
                 {
-                    MessageBox.Show(ERROR.Message, "Error opening initial file");
+                    MessageBox.Show(ERROR.Message, "Не удалось открыть файл с текстом!");
                 }
             }
             else
             {
                 openTextFileBtn.Enabled = false;
-                createKeyBtn.Enabled = false;
             }
         }
 
@@ -93,34 +194,11 @@ namespace Remediassance_Cryptosystem
                 }
                 catch (Exception ERROR)
                 {
-                    MessageBox.Show(ERROR.Message, "Error opening key file");
+                    MessageBox.Show(ERROR.Message, "Не удалось открыть файл ключа!");
                 }
             }
             else openKeyFileBtn.Enabled = false;
         }
-
-
-
-
-        /*=====================================================================
-         * Метод определения полного имени файла
-         *=====================================================================
-         */
-        /*private void fileNameBox_TextChanged(object sender, EventArgs e)
-        {
-            if (fileNameBox.Text != "" && keyNameBox.Text != ""
-                && fileNameBox.Text != keyNameBox.Text)
-                encodeBtn.Enabled = true;
-            else encodeBtn.Enabled = false;
-
-            if (fileNameBox.Text != "")
-                openTextFileBtn.Enabled = true;
-            else openTextFileBtn.Enabled = false;
-
-            if (keyNameBox.Text != "")
-                openKeyFileBtn.Enabled = true;
-            else openKeyFileBtn.Enabled = false;
-        }*/
 
 
 
@@ -149,118 +227,58 @@ namespace Remediassance_Cryptosystem
 
 
 
+
         /*=====================================================================
-         *                     1) ШИФРОВАНИЕ КЛЮЧА C RSA
+         *                      РЕАЛИЗАЦИЯ ШИФРОВКИ RSA
          *=====================================================================
          */
-        private void createKeyBtn_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //Create a UnicodeEncoder to convert between byte array and string.
-                UnicodeEncoding ByteConverter = new UnicodeEncoding();
-                String data;
-                openFile(keyNameBox.Text, out data);
-
-                dataToEncrypt = ByteConverter.GetBytes(data);
-
-                RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(); 
-
-                encryptedData = RSAEncrypt(dataToEncrypt, RSA.ExportParameters(false), false);
-
-                saveSeanseKey(ByteConverter.GetString(encryptedData));
-
-                    /*decryptedData = 
-                        RSADecrypt(encryptedData, RSA.ExportParameters(true), false);*/
-
-            }
-            catch (ArgumentNullException)
-            {
-                //Catch this exception in case the encryption did
-                //not succeed.
-                Console.WriteLine("Encryption failed.");
-
-            }
-        }
-
-
-        static public byte[] RSAEncrypt(byte[] DataToEncrypt, RSAParameters RSAKeyInfo, bool DoOAEPPadding)
+        static public byte[] RSAEncrypt(byte[] DataToEncrypt, RSAParameters RSAKeyInfo)
         {
             try
             {
                 byte[] encryptedData;
-                //Create a new instance of RSACryptoServiceProvider.
+
                 using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
                 {
-
-                    //Import the RSA Key information. This only needs
-                    //toinclude the public key information.
-                    RSA.ImportParameters(RSAKeyInfo);
-
-                    //Encrypt the passed byte array and specify OAEP padding.  
-                    //OAEP padding is only available on Microsoft Windows XP or
-                    //later.  
-                    encryptedData = RSA.Encrypt(DataToEncrypt, DoOAEPPadding);
+                    RSA.ImportParameters(RSAKeyInfo);  
+                    encryptedData = RSA.Encrypt(DataToEncrypt, false);
                 }
                 return encryptedData;
             }
-            //Catch and display a CryptographicException  
-            //to the console.
+
             catch (CryptographicException e)
             {
                 Console.WriteLine(e.Message);
-
                 return null;
             }
 
         }
-
-        static public byte[] RSADecrypt(byte[] DataToDecrypt, RSAParameters RSAKeyInfo, bool DoOAEPPadding)
-        {
-            try
-            {
-                byte[] decryptedData;
-                //Create a new instance of RSACryptoServiceProvider.
-                using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
-                {
-                    //Import the RSA Key information. This needs
-                    //to include the private key information.
-                    RSA.ImportParameters(RSAKeyInfo);
-
-                    //Decrypt the passed byte array and specify OAEP padding.  
-                    //OAEP padding is only available on Microsoft Windows XP or
-                    //later.  
-                    decryptedData = RSA.Decrypt(DataToDecrypt, DoOAEPPadding);
-                }
-                return decryptedData;
-            }
-            //Catch and display a CryptographicException  
-            //to the console.
-            catch (CryptographicException e)
-            {
-                Console.WriteLine(e.ToString());
-
-                return null;
-            }
-
-        }
-
 
 
 
         /*=====================================================================
-         *            2) ГЕНЕРАЦИЯ И СОХРАНЕНИЕ СЕАНСОВОГО КЛЮЧА
+         *                      РЕАЛИЗАЦИЯ ДЕШИФРОВКИ RSA
          *=====================================================================
          */
-        private void createSeanseBtn_Click(object sender, EventArgs e)
+        static public byte[] rsaDecrypt(byte[] dataToDecrypt, RSAParameters rsaKeyInfo)
         {
-            /*RijndaelManaged RM = new RijndaelManaged();
-            RM.GenerateIV();
-            RM.GenerateKey();
-            saveSeanseKey(RM.Key.ToString());*/
-            ECDiffieHellmanCng alice = new ECDiffieHellmanCng();
-            alicePublicKey = alice.PublicKey.ToByteArray();
-            saveSeanseKey(alicePublicKey.ToString());
+            try
+            {
+                byte[] decryptedData;
+                using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
+                {
+                    RSA.ImportParameters(rsaKeyInfo);
+                    decryptedData = RSA.Decrypt(dataToDecrypt, false);
+                }
+                return decryptedData;
+            }
+
+            catch (CryptographicException e)
+            {
+                Console.WriteLine(e.ToString());
+                return null;
+            }
+
         }
 
 
@@ -282,29 +300,12 @@ namespace Remediassance_Cryptosystem
 
 
 
-        /*=====================================================================
-         *                      ЗАПИСАТЬ ТЕКСТ В ФАЙЛ
-         *=====================================================================
-         */
-        private void writeData(string path, int[] data)
-        {
-            string buf = "";
-            FileStream fs = new FileStream(path, FileMode.Truncate);
-            StreamWriter own3d = new StreamWriter(fs, Encoding.Unicode);
-            for (int i = 0; i < data.Length; i++)
-            {
-                buf += (char)data[i];
-            }
-            own3d.Write(buf);
-            own3d.Close();
-        }
-
 
         /*=====================================================================
          *                  СОХРАНЕНИЕ КЛЮЧА В ФАЙЛ
          *=====================================================================
          */
-        private void saveSeanseKey(String key)
+        private void saveText(String key)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
             if (DialogResult.OK == saveDialog.ShowDialog())
@@ -317,10 +318,28 @@ namespace Remediassance_Cryptosystem
                 }
                 catch (Exception ERROR)
                 {
-                    MessageBox.Show(ERROR.Message, "FATAL ERROR");
+                    MessageBox.Show(ERROR.Message, "Критическая ошибка: ");
                 }
             }
         }
+
+
+
+
+        /*=====================================================================
+         *                      ЗАПИСАТЬ ТЕКСТ В ФАЙЛ
+         *=====================================================================
+         */
+        private void writeData(string path, String data)
+        {
+            FileStream fs = new FileStream(path, FileMode.Truncate);
+            StreamWriter own3d = new StreamWriter(fs, Encoding.Unicode);
+            own3d.Write(data);
+            own3d.Close();
+        }
+
+
+
 
         /*=====================================================================
          *                    ИЗМЕНЕНИЕ РАЗМЕРОВ ФОРМЫ
@@ -344,9 +363,88 @@ namespace Remediassance_Cryptosystem
             }
         }
 
-        private void encodeSeanseBtn_Click(object sender, EventArgs e)
+
+
+
+        /*=======================================================================================
+         *                     ЗАШИФРОВАТЬ ТЕКСТ И ЗАПИСАТЬ ЕГО В ФАЙЛ
+         *=======================================================================================
+         */
+        public static void encryptTextToFile(String Data, String FileName, byte[] Key, byte[] IV)
         {
+            try
+            {
+                FileStream fStream = File.Open(FileName, FileMode.OpenOrCreate);
+
+                CryptoStream cStream = new CryptoStream(fStream,
+                    new TripleDESCryptoServiceProvider().CreateEncryptor(Key, IV),
+                    CryptoStreamMode.Write);
+
+                StreamWriter sWriter = new StreamWriter(cStream);
+
+                sWriter.WriteLine(Data);
+
+                sWriter.Close();
+                cStream.Close();
+                fStream.Close();
+            }
+            catch (CryptographicException e)
+            {
+                Console.WriteLine("A Cryptographic error occurred: {0}", e.Message);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine("A file access error occurred: {0}", e.Message);
+            }
 
         }
+
+
+
+        /*=====================================================================
+         *                РАСШИФРОВКА ТЕКСТА И ЗАПИСЬ В ФАЙЛ
+         *=====================================================================
+         */
+        public static string decryptTextFromFile(String FileName, byte[] Key, byte[] IV)
+        {
+            try
+            {
+ 
+                FileStream fStream = File.Open(FileName, FileMode.OpenOrCreate);
+
+                CryptoStream cStream = new CryptoStream(fStream,
+                    new TripleDESCryptoServiceProvider().CreateDecryptor(Key, IV),
+                    CryptoStreamMode.Read);
+
+                StreamReader sReader = new StreamReader(cStream);
+
+                string val = sReader.ReadLine();
+
+                sReader.Close();
+                cStream.Close();
+                fStream.Close();
+
+                return val;
+            }
+            catch (CryptographicException e)
+            {
+                Console.WriteLine("A Cryptographic error occurred: {0}", e.Message);
+                return null;
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine("A file access error occurred: {0}", e.Message);
+                return null;
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Size sSize = new Size(419, 278);
+            this.Size = sSize;
+        }
+
+
+
     }
 }

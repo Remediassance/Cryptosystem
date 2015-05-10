@@ -7,3 +7,12 @@ C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Crypto
 C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Remediassance Cryptosystem\obj\Debug\Remediassance Cryptosystem.exe
 C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Remediassance Cryptosystem\obj\Debug\Remediassance Cryptosystem.pdb
 C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Remediassance Cryptosystem\obj\Debug\Remediassance Cryptosystem.csprojResolveAssemblyReference.cache
+C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Cryptosystem\Remediassance Cryptosystem\bin\Debug\Remediassance Cryptosystem.exe.config
+C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Cryptosystem\Remediassance Cryptosystem\obj\Debug\Remediassance Cryptosystem.exe
+C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Cryptosystem\Remediassance Cryptosystem\obj\Debug\Remediassance Cryptosystem.pdb
+C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Cryptosystem\Remediassance Cryptosystem\bin\Debug\Remediassance Cryptosystem.exe
+C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Cryptosystem\Remediassance Cryptosystem\bin\Debug\Remediassance Cryptosystem.pdb
+C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Cryptosystem\Remediassance Cryptosystem\obj\Debug\Remediassance Cryptosystem.csprojResolveAssemblyReference.cache
+C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Cryptosystem\Remediassance Cryptosystem\obj\Debug\Remediassance_Cryptosystem.Form1.resources
+C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Cryptosystem\Remediassance Cryptosystem\obj\Debug\Remediassance_Cryptosystem.Properties.Resources.resources
+C:\Users\Андрей\Documents\Visual Studio 2013\Projects\Remediassance Cryptosystem\Cryptosystem\Remediassance Cryptosystem\obj\Debug\Remediassance Cryptosystem.csproj.GenerateResource.Cache

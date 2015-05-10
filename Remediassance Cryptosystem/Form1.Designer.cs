@@ -50,12 +50,17 @@
             this.decodeKeyBtn = new System.Windows.Forms.Button();
             this.createSeanseBtn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // encodeKeyBtn
             // 
+            this.encodeKeyBtn.Enabled = false;
             this.encodeKeyBtn.Location = new System.Drawing.Point(107, 128);
             this.encodeKeyBtn.Name = "encodeKeyBtn";
             this.encodeKeyBtn.Size = new System.Drawing.Size(92, 36);
@@ -66,6 +71,7 @@
             // 
             // openKeyFileBtn
             // 
+            this.openKeyFileBtn.Enabled = false;
             this.openKeyFileBtn.Location = new System.Drawing.Point(303, 170);
             this.openKeyFileBtn.Name = "openKeyFileBtn";
             this.openKeyFileBtn.Size = new System.Drawing.Size(92, 36);
@@ -76,6 +82,7 @@
             // 
             // encodeBtn
             // 
+            this.encodeBtn.Enabled = false;
             this.encodeBtn.Location = new System.Drawing.Point(205, 128);
             this.encodeBtn.Name = "encodeBtn";
             this.encodeBtn.Size = new System.Drawing.Size(92, 36);
@@ -86,6 +93,7 @@
             // 
             // decodeBtn
             // 
+            this.decodeBtn.Enabled = false;
             this.decodeBtn.Location = new System.Drawing.Point(205, 170);
             this.decodeBtn.Name = "decodeBtn";
             this.decodeBtn.Size = new System.Drawing.Size(92, 36);
@@ -96,6 +104,7 @@
             // 
             // openTextFileBtn
             // 
+            this.openTextFileBtn.Enabled = false;
             this.openTextFileBtn.Location = new System.Drawing.Point(303, 128);
             this.openTextFileBtn.Name = "openTextFileBtn";
             this.openTextFileBtn.Size = new System.Drawing.Size(92, 36);
@@ -168,6 +177,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
@@ -176,7 +189,7 @@
             this.groupBox1.Controls.Add(this.nTextBox);
             this.groupBox1.Location = new System.Drawing.Point(9, 240);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(386, 149);
+            this.groupBox1.Size = new System.Drawing.Size(386, 162);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Переменные";
@@ -184,7 +197,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 117);
+            this.label5.Location = new System.Drawing.Point(3, 145);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(13, 13);
             this.label5.TabIndex = 5;
@@ -193,7 +206,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 91);
+            this.label4.Location = new System.Drawing.Point(3, 119);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(13, 13);
             this.label4.TabIndex = 4;
@@ -202,7 +215,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 65);
+            this.label3.Location = new System.Drawing.Point(3, 93);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(13, 13);
             this.label3.TabIndex = 3;
@@ -210,27 +223,28 @@
             // 
             // eTextBox
             // 
-            this.eTextBox.Location = new System.Drawing.Point(22, 114);
+            this.eTextBox.Location = new System.Drawing.Point(22, 142);
             this.eTextBox.Name = "eTextBox";
             this.eTextBox.Size = new System.Drawing.Size(358, 20);
             this.eTextBox.TabIndex = 2;
             // 
             // dTextBox
             // 
-            this.dTextBox.Location = new System.Drawing.Point(22, 88);
+            this.dTextBox.Location = new System.Drawing.Point(22, 116);
             this.dTextBox.Name = "dTextBox";
             this.dTextBox.Size = new System.Drawing.Size(358, 20);
             this.dTextBox.TabIndex = 1;
             // 
             // nTextBox
             // 
-            this.nTextBox.Location = new System.Drawing.Point(22, 62);
+            this.nTextBox.Location = new System.Drawing.Point(22, 90);
             this.nTextBox.Name = "nTextBox";
             this.nTextBox.Size = new System.Drawing.Size(358, 20);
             this.nTextBox.TabIndex = 0;
             // 
             // decodeKeyBtn
             // 
+            this.decodeKeyBtn.Enabled = false;
             this.decodeKeyBtn.Location = new System.Drawing.Point(107, 170);
             this.decodeKeyBtn.Name = "decodeKeyBtn";
             this.decodeKeyBtn.Size = new System.Drawing.Size(92, 36);
@@ -264,11 +278,43 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Файлы";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 22);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(92, 13);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Сеансовый ключ";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(98, 19);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(282, 20);
+            this.textBox1.TabIndex = 6;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(98, 45);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(282, 20);
+            this.textBox2.TabIndex = 8;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 48);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(89, 13);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Исходный текст";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(403, 239);
+            this.ClientSize = new System.Drawing.Size(403, 412);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.openKeyFileBtn);
             this.Controls.Add(this.createSeanseBtn);
@@ -281,6 +327,7 @@
             this.Controls.Add(this.encodeBtn);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -313,6 +360,10 @@
         private System.Windows.Forms.Button decodeKeyBtn;
         private System.Windows.Forms.Button createSeanseBtn;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
