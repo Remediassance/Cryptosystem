@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.createKeyBtn = new System.Windows.Forms.Button();
+            this.encodeKeyBtn = new System.Windows.Forms.Button();
             this.openKeyFileBtn = new System.Windows.Forms.Button();
             this.encodeBtn = new System.Windows.Forms.Button();
             this.decodeBtn = new System.Windows.Forms.Button();
@@ -47,23 +47,22 @@
             this.eTextBox = new System.Windows.Forms.TextBox();
             this.dTextBox = new System.Windows.Forms.TextBox();
             this.nTextBox = new System.Windows.Forms.TextBox();
-            this.encodeSeanseBtn = new System.Windows.Forms.Button();
+            this.decodeKeyBtn = new System.Windows.Forms.Button();
             this.createSeanseBtn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // createKeyBtn
+            // encodeKeyBtn
             // 
-            this.createKeyBtn.Location = new System.Drawing.Point(9, 128);
-            this.createKeyBtn.Name = "createKeyBtn";
-            this.createKeyBtn.Size = new System.Drawing.Size(92, 36);
-            this.createKeyBtn.TabIndex = 0;
-            this.createKeyBtn.Text = "ШИФР КЛЮЧА";
-            this.createKeyBtn.UseVisualStyleBackColor = true;
-            this.createKeyBtn.Click += new System.EventHandler(this.createKeyBtn_Click);
+            this.encodeKeyBtn.Location = new System.Drawing.Point(107, 128);
+            this.encodeKeyBtn.Name = "encodeKeyBtn";
+            this.encodeKeyBtn.Size = new System.Drawing.Size(92, 36);
+            this.encodeKeyBtn.TabIndex = 0;
+            this.encodeKeyBtn.Text = "ШИФР КЛЮЧА";
+            this.encodeKeyBtn.UseVisualStyleBackColor = true;
+            this.encodeKeyBtn.Click += new System.EventHandler(this.encodeKeyBtn_Click);
             // 
             // openKeyFileBtn
             // 
@@ -83,19 +82,21 @@
             this.encodeBtn.TabIndex = 2;
             this.encodeBtn.Text = "Шифровать файл";
             this.encodeBtn.UseVisualStyleBackColor = true;
+            this.encodeBtn.Click += new System.EventHandler(this.encodeBtn_Click);
             // 
             // decodeBtn
             // 
-            this.decodeBtn.Location = new System.Drawing.Point(303, 128);
+            this.decodeBtn.Location = new System.Drawing.Point(205, 170);
             this.decodeBtn.Name = "decodeBtn";
             this.decodeBtn.Size = new System.Drawing.Size(92, 36);
             this.decodeBtn.TabIndex = 3;
             this.decodeBtn.Text = "Дешифровать файл";
             this.decodeBtn.UseVisualStyleBackColor = true;
+            this.decodeBtn.Click += new System.EventHandler(this.decodeBtn_Click);
             // 
             // openTextFileBtn
             // 
-            this.openTextFileBtn.Location = new System.Drawing.Point(205, 170);
+            this.openTextFileBtn.Location = new System.Drawing.Point(303, 128);
             this.openTextFileBtn.Name = "openTextFileBtn";
             this.openTextFileBtn.Size = new System.Drawing.Size(92, 36);
             this.openTextFileBtn.TabIndex = 4;
@@ -228,23 +229,23 @@
             this.nTextBox.Size = new System.Drawing.Size(358, 20);
             this.nTextBox.TabIndex = 0;
             // 
-            // encodeSeanseBtn
+            // decodeKeyBtn
             // 
-            this.encodeSeanseBtn.Location = new System.Drawing.Point(9, 170);
-            this.encodeSeanseBtn.Name = "encodeSeanseBtn";
-            this.encodeSeanseBtn.Size = new System.Drawing.Size(92, 36);
-            this.encodeSeanseBtn.TabIndex = 17;
-            this.encodeSeanseBtn.Text = "Шифровать ключ";
-            this.encodeSeanseBtn.UseVisualStyleBackColor = true;
-            this.encodeSeanseBtn.Click += new System.EventHandler(this.encodeSeanseBtn_Click);
+            this.decodeKeyBtn.Location = new System.Drawing.Point(107, 170);
+            this.decodeKeyBtn.Name = "decodeKeyBtn";
+            this.decodeKeyBtn.Size = new System.Drawing.Size(92, 36);
+            this.decodeKeyBtn.TabIndex = 17;
+            this.decodeKeyBtn.Text = "ДЕШИФР КЛЮЧА";
+            this.decodeKeyBtn.UseVisualStyleBackColor = true;
+            this.decodeKeyBtn.Click += new System.EventHandler(this.decodeKeyBtn_Click);
             // 
             // createSeanseBtn
             // 
-            this.createSeanseBtn.Location = new System.Drawing.Point(107, 128);
+            this.createSeanseBtn.Location = new System.Drawing.Point(9, 128);
             this.createSeanseBtn.Name = "createSeanseBtn";
-            this.createSeanseBtn.Size = new System.Drawing.Size(92, 36);
+            this.createSeanseBtn.Size = new System.Drawing.Size(92, 78);
             this.createSeanseBtn.TabIndex = 18;
-            this.createSeanseBtn.Text = "Создать сеансовый ключ";
+            this.createSeanseBtn.Text = "СОЗДАТЬ КЛЮЧ";
             this.createSeanseBtn.UseVisualStyleBackColor = true;
             this.createSeanseBtn.Click += new System.EventHandler(this.createSeanseBtn_Click);
             // 
@@ -263,34 +264,23 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Файлы";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(107, 170);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(92, 36);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "Дешифровать ключ";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(403, 239);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.openKeyFileBtn);
             this.Controls.Add(this.createSeanseBtn);
             this.Controls.Add(this.openTextFileBtn);
-            this.Controls.Add(this.encodeSeanseBtn);
+            this.Controls.Add(this.decodeKeyBtn);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.expandBtn);
             this.Controls.Add(this.decodeBtn);
-            this.Controls.Add(this.createKeyBtn);
+            this.Controls.Add(this.encodeKeyBtn);
             this.Controls.Add(this.encodeBtn);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -301,7 +291,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button createKeyBtn;
+        private System.Windows.Forms.Button encodeKeyBtn;
         private System.Windows.Forms.Button openKeyFileBtn;
         private System.Windows.Forms.Button encodeBtn;
         private System.Windows.Forms.Button decodeBtn;
@@ -320,10 +310,9 @@
         private System.Windows.Forms.TextBox eTextBox;
         private System.Windows.Forms.TextBox dTextBox;
         private System.Windows.Forms.TextBox nTextBox;
-        private System.Windows.Forms.Button encodeSeanseBtn;
+        private System.Windows.Forms.Button decodeKeyBtn;
         private System.Windows.Forms.Button createSeanseBtn;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button1;
     }
 }
 
