@@ -225,6 +225,7 @@
             // 
             this.eTextBox.Location = new System.Drawing.Point(22, 142);
             this.eTextBox.Name = "eTextBox";
+            this.eTextBox.ReadOnly = true;
             this.eTextBox.Size = new System.Drawing.Size(358, 20);
             this.eTextBox.TabIndex = 2;
             // 
@@ -232,6 +233,7 @@
             // 
             this.dTextBox.Location = new System.Drawing.Point(22, 116);
             this.dTextBox.Name = "dTextBox";
+            this.dTextBox.ReadOnly = true;
             this.dTextBox.Size = new System.Drawing.Size(358, 20);
             this.dTextBox.TabIndex = 1;
             // 
@@ -239,6 +241,7 @@
             // 
             this.nTextBox.Location = new System.Drawing.Point(22, 90);
             this.nTextBox.Name = "nTextBox";
+            this.nTextBox.ReadOnly = true;
             this.nTextBox.Size = new System.Drawing.Size(358, 20);
             this.nTextBox.TabIndex = 0;
             // 
@@ -291,6 +294,7 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(98, 19);
             this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(282, 20);
             this.textBox1.TabIndex = 6;
             // 
@@ -298,6 +302,7 @@
             // 
             this.textBox2.Location = new System.Drawing.Point(98, 45);
             this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(282, 20);
             this.textBox2.TabIndex = 8;
             // 
@@ -326,7 +331,7 @@
             this.Controls.Add(this.encodeKeyBtn);
             this.Controls.Add(this.encodeBtn);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Such Cryptosystem, Much Wow";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
