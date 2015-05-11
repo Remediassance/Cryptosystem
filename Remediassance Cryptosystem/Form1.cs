@@ -36,6 +36,7 @@ namespace Remediassance_Cryptosystem
         byte[] encryptedData;
         byte[] decryptedData;
         RSAParameters exportedParams;
+        byte[] signedHash;
 
 
 
@@ -138,10 +139,17 @@ namespace Remediassance_Cryptosystem
         private void encodeBtn_Click(object sender, EventArgs e)
         {
             String data;
+            String encData;
+            byte[] encrypted;
             openFile(fileNameBox.Text, out data);
+            
             encryptTextToFile(data, fileNameBox.Text, tripleDES.Key, tripleDES.IV);
             textBox2.Text = data;
             decodeBtn.Enabled = true;
+
+            openFile(fileNameBox.Text, out encData);
+            encrypted = Encoding.Default.GetBytes(encData);
+            signedHash = HashAndSign(encrypted);
         }
 
 
@@ -153,8 +161,22 @@ namespace Remediassance_Cryptosystem
          */
         private void decodeBtn_Click(object sender, EventArgs e)
         {
-            string data = decryptTextFromFile(fileNameBox.Text, tripleDES.Key, tripleDES.IV);
-            saveText(data);
+            String encData;            
+            SHA1Managed hash = new SHA1Managed();
+            byte[] hashedData;
+            byte[] encrypted;
+
+            openFile(fileNameBox.Text, out encData);
+            encrypted = Encoding.Default.GetBytes(encData);
+
+            hashedData = hash.ComputeHash(encrypted);
+
+            if (VerifyHash(hashedData, signedHash))
+            {
+                string data = decryptTextFromFile(fileNameBox.Text, tripleDES.Key, tripleDES.IV);
+                saveText(data);
+            }
+            else MessageBox.Show("Invalid signature");
         }
 
 
