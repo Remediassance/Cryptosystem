@@ -138,9 +138,9 @@ namespace Remediassance_Cryptosystem
         private void encodeBtn_Click(object sender, EventArgs e)
         {
             String data;
+            
             openFile(fileNameBox.Text, out data);
             textBox2.Text = data;
-
             encryptTextToFile(data, fileNameBox.Text, tripleDES.Key, tripleDES.IV);
             decodeBtn.Enabled = true;
         }
