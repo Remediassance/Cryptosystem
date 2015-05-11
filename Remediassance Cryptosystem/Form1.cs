@@ -54,8 +54,6 @@ namespace Remediassance_Cryptosystem
             //s.Substring(0, 31);//Encoding.Unicode.GetString(RM.Key);
             saveText(s.Substring(0, 31));
             encodeKeyBtn.Enabled = true;
-
-            textBox1.Text = s.Substring(0, 31);
         }
 
 
@@ -81,22 +79,6 @@ namespace Remediassance_Cryptosystem
                     saveText(ByteConverter.GetString(encryptedData));
 
                     exportedParams = RSA.ExportParameters(true);
-
-                    String s = "";
-                    foreach (byte b in exportedParams.Modulus)
-                        s += b.ToString();
-                    nTextBox.Text = s;
-                    s = "";
-
-                    foreach (byte b in exportedParams.D)
-                        s += b.ToString();
-                    dTextBox.Text = s;
-                    s = "";
-
-                    foreach (byte b in exportedParams.Exponent)
-                        s += b.ToString();
-                    eTextBox.Text = s;
-                    s = "";
                     /*decryptedData = RSADecrypt(encryptedData, RSA.ExportParameters(true), false);*/
                 }
                 decodeKeyBtn.Enabled = true;
@@ -140,7 +122,10 @@ namespace Remediassance_Cryptosystem
             String data;
             
             openFile(fileNameBox.Text, out data);
+<<<<<<< HEAD
             textBox2.Text = data;
+=======
+>>>>>>> parent of dbc2b16... Вывод переменных
             encryptTextToFile(data, fileNameBox.Text, tripleDES.Key, tripleDES.IV);
             decodeBtn.Enabled = true;
         }
@@ -156,49 +141,6 @@ namespace Remediassance_Cryptosystem
         {
             string data = decryptTextFromFile(fileNameBox.Text, tripleDES.Key, tripleDES.IV);
             saveText(data);
-        }
-
-
-
-
-        /*=====================================================================
-         *                      ДОБАВЛЕНИЕ ПОДПИСИ
-         *=====================================================================
-         */
-        public byte[] HashAndSign(byte[] encrypted)
-        {
-            using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
-            {
-                RSA.ImportParameters(exportedParams);
-
-                SHA1Managed hash = new SHA1Managed();
-                byte[] hashedData;
-
-                hashedData = hash.ComputeHash(encrypted);
-                return RSA.SignHash(hashedData, CryptoConfig.MapNameToOID("SHA1"));
-            }
-        }
-
-
-
-        /*=====================================================================
-         *                        ПРОВЕРКА ПОДПИСИ
-         *=====================================================================
-         */
-        public bool VerifyHash(byte[] signedData, byte[] signature)
-        {
-            using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
-            {
-                SHA1Managed hash = new SHA1Managed();
-                bool isVerified;
-                byte[] hashedData;
-
-                RSA.ImportParameters(exportedParams);
-                isVerified = RSA.VerifyData(signedData, CryptoConfig.MapNameToOID("SHA1"), signature);
-                hashedData = hash.ComputeHash(signedData);
-
-                return RSA.VerifyHash(hashedData, CryptoConfig.MapNameToOID("SHA1"), signature);
-            }
         }
 
 
