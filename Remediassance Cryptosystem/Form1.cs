@@ -45,14 +45,16 @@ namespace Remediassance_Cryptosystem
         */
         private void createSeanseBtn_Click(object sender, EventArgs e)
         {
-            //UnicodeEncoding ByteConverter = new UnicodeEncoding();
+
             tripleDES = new TripleDESCryptoServiceProvider();
             tripleDES.GenerateKey();
             String s = "";
-            foreach(byte b in tripleDES.Key)
+
+            foreach (byte b in tripleDES.Key)
                 s += b.ToString();
-            //s.Substring(0, 31);//Encoding.Unicode.GetString(RM.Key);
+
             saveText(s.Substring(0, 31));
+            textBox1.Text = s.Substring(0, 31);
             encodeKeyBtn.Enabled = true;
         }
 
@@ -79,13 +81,29 @@ namespace Remediassance_Cryptosystem
                     saveText(ByteConverter.GetString(encryptedData));
 
                     exportedParams = RSA.ExportParameters(true);
+
+                    String mod = "";
+                    foreach (byte b in exportedParams.Modulus)
+                        mod += b.ToString();
+                    nTextBox.Text = mod;
+
+                    String d = "";
+                    foreach (byte b in exportedParams.D)
+                        d += b.ToString();
+                    dTextBox.Text = d;
+
+                    String exp = "";
+                    foreach (byte b in exportedParams.Exponent)
+                        exp += b.ToString();
+                    eTextBox.Text = exp;
+
                     /*decryptedData = RSADecrypt(encryptedData, RSA.ExportParameters(true), false);*/
                 }
                 decodeKeyBtn.Enabled = true;
             }
             catch (ArgumentNullException ERROR)
             {
-                MessageBox.Show(ERROR.Message,"Неудалось зашифровать текст.");
+                MessageBox.Show(ERROR.Message, "Неудалось зашифровать текст.");
             }
         }
 
@@ -120,13 +138,9 @@ namespace Remediassance_Cryptosystem
         private void encodeBtn_Click(object sender, EventArgs e)
         {
             String data;
-            
             openFile(fileNameBox.Text, out data);
-<<<<<<< HEAD
-            textBox2.Text = data;
-=======
->>>>>>> parent of dbc2b16... Вывод переменных
             encryptTextToFile(data, fileNameBox.Text, tripleDES.Key, tripleDES.IV);
+            textBox2.Text = data;
             decodeBtn.Enabled = true;
         }
 
@@ -145,6 +159,46 @@ namespace Remediassance_Cryptosystem
 
 
 
+
+        /*=====================================================================
+         *                      ДОБАВЛЕНИЕ ПОДПИСИ
+         *=====================================================================
+         */
+        public byte[] HashAndSign(byte[] encrypted)
+        {
+            using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
+            {
+                RSA.ImportParameters(exportedParams);
+
+                SHA1Managed hash = new SHA1Managed();
+                byte[] hashedData;
+
+                hashedData = hash.ComputeHash(encrypted);
+                return RSA.SignHash(hashedData, CryptoConfig.MapNameToOID("SHA1"));
+            }
+        }
+
+
+
+        /*=====================================================================
+         *                        ПРОВЕРКА ПОДПИСИ
+         *=====================================================================
+         */
+        public bool VerifyHash(byte[] signedData, byte[] signature)
+        {
+            using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
+            {
+                SHA1Managed hash = new SHA1Managed();
+                bool isVerified;
+                byte[] hashedData;
+
+                RSA.ImportParameters(exportedParams);
+                isVerified = RSA.VerifyData(signedData, CryptoConfig.MapNameToOID("SHA1"), signature);
+                hashedData = hash.ComputeHash(signedData);
+
+                return RSA.VerifyHash(hashedData, CryptoConfig.MapNameToOID("SHA1"), signature);
+            }
+        }
 
         /*==============================================================================
          *===============================================================================
@@ -245,7 +299,7 @@ namespace Remediassance_Cryptosystem
 
                 using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
                 {
-                    RSA.ImportParameters(RSAKeyInfo);  
+                    RSA.ImportParameters(RSAKeyInfo);
                     encryptedData = RSA.Encrypt(DataToEncrypt, false);
                 }
                 return encryptedData;
@@ -317,7 +371,7 @@ namespace Remediassance_Cryptosystem
             {
                 StreamWriter own3dTV = new StreamWriter(saveDialog.FileName.ToString());
                 try
-                {                    
+                {
                     own3dTV.WriteLine(key);
                     own3dTV.Close();
                 }
@@ -414,7 +468,7 @@ namespace Remediassance_Cryptosystem
         {
             try
             {
- 
+
                 FileStream fStream = File.Open(FileName, FileMode.OpenOrCreate);
 
                 CryptoStream cStream = new CryptoStream(fStream,
