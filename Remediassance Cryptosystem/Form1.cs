@@ -169,9 +169,9 @@ namespace Remediassance_Cryptosystem
             openFile(fileNameBox.Text, out encData);
             encrypted = Encoding.Default.GetBytes(encData);
 
-            hashedData = hash.ComputeHash(encrypted);
+            //hashedData = hash.ComputeHash(encrypted);
 
-            if (VerifyHash(hashedData, signedHash))
+            if (VerifyHash(encrypted, signedHash))
             {
                 string data = decryptTextFromFile(fileNameBox.Text, tripleDES.Key, tripleDES.IV);
                 saveText(data);
@@ -215,7 +215,7 @@ namespace Remediassance_Cryptosystem
                 byte[] hashedData;
 
                 RSA.ImportParameters(exportedParams);
-                isVerified = RSA.VerifyData(signedData, CryptoConfig.MapNameToOID("SHA1"), signature);
+                //isVerified = RSA.VerifyData(signedData, CryptoConfig.MapNameToOID("SHA1"), signature);
                 hashedData = hash.ComputeHash(signedData);
 
                 return RSA.VerifyHash(hashedData, CryptoConfig.MapNameToOID("SHA1"), signature);
